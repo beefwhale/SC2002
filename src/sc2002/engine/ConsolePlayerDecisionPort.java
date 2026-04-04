@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// TODO: Person 4 - Implement and enhance CLI UI
 public class ConsolePlayerDecisionPort implements PlayerDecisionPort {
     private final Scanner scanner;
     private final Action basicAttack;
