@@ -2,6 +2,7 @@ package sc2002.engine;
 
 import java.util.List;
 
+// TODO: Person 3 - Implement actions
 public class SpecialSkillAction implements Action {
     private final boolean ignoreCooldown;
 
