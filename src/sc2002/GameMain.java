@@ -26,6 +26,8 @@ public class GameMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        printGameContextAndInstructions();
+
         System.out.println("Choose player: 1) Warrior 2) Wizard");
         PlayerCombatant player = "2".equals(scanner.nextLine().trim()) ? new Wizard() : new Warrior();
 
@@ -80,5 +82,16 @@ public class GameMain {
                 player.giveItem(smokeBomb.name(), 1);
             }
         }
+    }
+
+    private static void printGameContextAndInstructions() {
+        System.out.println("===============================");
+        System.out.println("=== Turn-Based Combat Arena ===");
+        System.out.println("===============================");
+        System.out.println("Goal: Defeat all enemies before your HP reaches 0.");
+        System.out.println("Setup: Choose player -> choose 2 items -> choose difficulty -> battle starts.");
+        System.out.println("Turn order is based on speed. Higher speed acts first.");
+        System.out.println("Input guide: Enter numbers only (e.g., 1, 2, 3, 4) when prompted.");
+        System.out.println("Actions: 1) BasicAttack 2) Defend 3) SpecialSkill 4) Item\n");
     }
 }
