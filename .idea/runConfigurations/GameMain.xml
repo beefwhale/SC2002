@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GameMain" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="sc2002.GameMain" />
+    <module name="sc2002" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+
