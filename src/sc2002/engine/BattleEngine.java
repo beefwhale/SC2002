@@ -27,6 +27,8 @@ public class BattleEngine {
                     continue;
                 }
 
+                // Cooldown decreases only when this combatant gets a turn.
+                actor.tickSkillCooldown();
                 actor.applyTurnStartEffects();
                 outcome = evaluateOutcome(state);
                 if (outcome != BattleOutcome.ONGOING) {
@@ -41,7 +43,6 @@ public class BattleEngine {
                 }
 
                 actor.applyTurnEndEffects();
-                actor.tickSkillCooldown();
                 state.spawnBackupIfReady();
 
                 outcome = evaluateOutcome(state);
