@@ -34,12 +34,12 @@ public class BaseCombatant implements Combatant {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public Team team() {
+    public Team getTeam() {
         return team;
     }
 
