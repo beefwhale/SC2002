@@ -34,6 +34,5 @@ public interface Combatant {
     public void giveItem(String itemName, int count) ;
     private void removeExpiredEffects() ;
     
-    public abstract void performAction(Combatant target);
 }
 
