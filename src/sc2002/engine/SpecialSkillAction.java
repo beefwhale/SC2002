@@ -20,18 +20,19 @@ public class SpecialSkillAction implements Action {
     }
 
     @Override
-    public void execute(BattleState state, Combatant actor, Combatant target) {
+    public boolean execute(BattleState state, Combatant actor, Combatant target) {
         if (!(actor instanceof PlayerCombatant)) {
-            return;
+            return false;
         }
         PlayerCombatant player = (PlayerCombatant) actor;
         if (!ignoreCooldown && player.getSkillCooldown() > 0) {
-            throw new IllegalStateException("Special skill on cooldown");
+            System.out.println("Special skill on cooldown");
+            return false;
         }
 
         if (player.getPlayerType() == PlayerType.WARRIOR) {
             if (target == null || !target.isAlive()) {
-                return;
+                return false;
             }
             int damage = Math.max(0, player.getAttack() - target.getDefense());
             target.applyDamage(damage);
@@ -53,6 +54,8 @@ public class SpecialSkillAction implements Action {
         if (!ignoreCooldown) {
             player.setSkillCooldown(3);
         }
+
+        return true;
     }
 }
 
