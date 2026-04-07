@@ -8,9 +8,15 @@ public class SmokeBombItem implements Item {
     }
 
     @Override
-    public void use(BattleState state, Combatant user, Combatant target) {
+    public boolean use(BattleState state, Combatant user, Combatant target) {
+        if (user.GetItemCount(name()) <=0){
+            System.out.println("No more SmokeBomb");
+            return false;
+        }
+        
         user.consumeItem(name());
         state.setEnemyDamageZeroRounds(2);
+        return true;
     }
 }
 
