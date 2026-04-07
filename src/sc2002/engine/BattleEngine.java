@@ -19,9 +19,11 @@ public class BattleEngine {
 
     public BattleResult run(BattleState state) {
         BattleOutcome outcome = evaluateOutcome(state);
+
         while (outcome == BattleOutcome.ONGOING) {
             state.incrementRound();
             List<Combatant> order = turnOrderStrategy.order(state);
+
             for (Combatant actor : order) {
                 if (!actor.isAlive()) {
                     continue;
@@ -30,15 +32,27 @@ public class BattleEngine {
                 // Cooldown decreases only when this combatant gets a turn.
                 actor.tickSkillCooldown();
                 actor.applyTurnStartEffects();
+
                 outcome = evaluateOutcome(state);
                 if (outcome != BattleOutcome.ONGOING) {
                     break;
                 }
 
                 if (!actor.consumeActionBlockedForTurn()) {
-                    PlannedAction action = chooseAction(state, actor);
-                    if (action != null && action.action() != null) {
-                        action.action().execute(state, actor, action.target());
+                    boolean actionSucceeded = false;
+
+                    if (actor.team() == Team.PLAYER) {
+                        while (!actionSucceeded) {
+                            PlannedAction action = chooseAction(state, actor);
+                            if (action != null && action.action() != null) {
+                                actionSucceeded = action.action().execute(state, actor, action.target());
+                            }
+                        }
+                    } else {
+                        PlannedAction action = chooseAction(state, actor);
+                        if (action != null && action.action() != null) {
+                            action.action().execute(state, actor, action.target());
+                        }
                     }
                 }
 
@@ -50,12 +64,21 @@ public class BattleEngine {
                     break;
                 }
             }
+
             state.onRoundEnd();
             outcome = evaluateOutcome(state);
         }
 
-        long enemiesRemaining = state.activeEnemies().stream().filter(Combatant::isAlive).count();
-        return new BattleResult(outcome, state.getRoundCount(), state.player().getHp(), enemiesRemaining);
+        long enemiesRemaining = state.activeEnemies().stream()
+            .filter(Combatant::isAlive)
+            .count();
+
+        return new BattleResult(
+            outcome,
+            state.getRoundCount(),
+            state.player().getHp(),
+            enemiesRemaining
+        );
     }
 
     private PlannedAction chooseAction(BattleState state, Combatant actor) {
@@ -69,11 +92,12 @@ public class BattleEngine {
         if (!state.player().isAlive()) {
             return BattleOutcome.DEFEAT;
         }
+
         boolean enemiesAlive = state.activeEnemies().stream().anyMatch(Combatant::isAlive);
         if (!enemiesAlive && !state.hasPendingBackup()) {
             return BattleOutcome.VICTORY;
         }
+
         return BattleOutcome.ONGOING;
     }
 }
-
