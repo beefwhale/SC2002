@@ -9,6 +9,11 @@ public class PotionItem implements Item {
 
     @Override
     public void use(BattleState state, Combatant user, Combatant target) {
+        if (user.getItemCount(name)) <= 0) {
+            System.out.println("No more Potion");
+            return;
+        }
+        
         user.consumeItem(name());
         user.heal(100);
     }
