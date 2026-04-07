@@ -16,6 +16,7 @@ public class PotionItem implements Item {
         
         user.consumeItem(name());
         user.heal(100);
+        return true;
     }
 }
 
