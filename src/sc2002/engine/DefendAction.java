@@ -8,8 +8,9 @@ public class DefendAction implements Action {
     }
 
     @Override
-    public void execute(BattleState state, Combatant actor, Combatant target) {
+    public boolean execute(BattleState state, Combatant actor, Combatant target) {
         actor.addDefenseBonus(10, 2);
+        return true;
     }
 }
 
