@@ -14,9 +14,16 @@ public class PowerStoneItem implements Item {
     }
 
     @Override
-    public void use(BattleState state, Combatant user, Combatant target) {
+    public boolean use(BattleState state, Combatant user, Combatant target) {
+        if (use.getItemCount(name()) <= 0){
+            System.out.println("No more PowerStone");
+            return flase;
+        }
+
+        
         user.consumeItem(name());
         freeSkillAction.execute(state, user, target);
+        return true;
     }
 }
 
