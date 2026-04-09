@@ -32,5 +32,3 @@ public class PlayerCombatant extends BaseCombatant {
     public abstract void chooseAction(List<Combatant> enemies);
 }
 
-}
-
