@@ -1,0 +1,33 @@
+package sc2002;
+
+import java.util.Scanner;
+
+public class InputHandle {
+    private Scanner scanner;
+
+    public InputHandle(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public int readChoice(String prompt, int min, int max) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                String input = scanner.nextLine().trim();
+
+                int value = Integer.parseInt(input);
+
+                if (value < min || value > max) {
+                    throw new IllegalArgumentException();
+                }
+
+                return value;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a whole number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Choice must be between " + min + " and " + max + ".");
+            }
+        }
+    }
+}
