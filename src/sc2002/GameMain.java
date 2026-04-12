@@ -25,22 +25,24 @@ import sc2002.engine.Wizard;
 public class GameMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        InputHandle inputHandle = new InputHandle(scanner);
 
         printGameContextAndInstructions();
 
         System.out.println("Choose player: 1) Warrior 2) Wizard");
-        PlayerCombatant player = "2".equals(scanner.nextLine().trim()) ? new Wizard() : new Warrior();
+        int playerChoice = inputHandle.readChoice("Enter choice: :, 1,2);
+        PlayerCombatant player = (playerChoice == 2) ? new Wizard() : new Warrior();
 
         Item potion = new PotionItem();
         Item smokeBomb = new SmokeBombItem();
         Action freeSkillAction = new SpecialSkillAction(true);
         Item powerStone = new PowerStoneItem(freeSkillAction);
 
-        chooseItems(scanner, player, potion, smokeBomb, powerStone);
+        chooseItems(inputHandle, player, potion, smokeBomb, powerStone);
 
         System.out.println("Choose difficulty: 1) Easy 2) Medium 3) Hard");
-        String difficultyRaw = scanner.nextLine().trim();
-        Difficulty difficulty = "2".equals(difficultyRaw) ? Difficulty.MEDIUM : ("3".equals(difficultyRaw) ? Difficulty.HARD : Difficulty.EASY);
+        int difficultyChoice = inputHandle.readChoice("Enter difficulty: ", 1,3);
+        Difficulty difficulty = (difficultyChoice == 2) ? DIfficulty.MEDIUM : (difficultyChoice == 3 ? Difficulty.HARD : Difficulty.EASY);
 
         LevelFactory levelFactory = new LevelFactory();
         BattleSetup setup = levelFactory.create(player, difficulty);
@@ -70,16 +72,23 @@ public class GameMain {
         }
     }
 
-    private static void chooseItems(Scanner scanner, PlayerCombatant player, Item potion, Item smokeBomb, Item powerStone) {
+    private static void chooseItems(InputHandle inputHandle, PlayerCombatant player, Item potion, Item smokeBomb, Item powerStone) {
         System.out.println("Choose 2 items (duplicates allowed): 1) Potion 2) PowerStone 3) SmokeBomb");
         for (int i = 0; i < 2; i++) {
-            String choice = scanner.nextLine().trim();
-            if ("1".equals(choice)) {
-                player.giveItem(potion.name(), 1);
-            } else if ("2".equals(choice)) {
-                player.giveItem(powerStone.name(), 1);
-            } else {
-                player.giveItem(smokeBomb.name(), 1);
+            int choice = inputHandle.readChoice("Enter item choice: ", 1,3);
+
+            switch(choice){
+                case 1:
+                    player.giveItem(potion.name(),1);
+                    break;
+                case 2:
+                    player.giveItem(powerStone.name(),1);
+                    break;
+                case 3:
+                    player.giveItem(smokeBomb.name(),1);
+                    break;
+                default:
+                    System.out.println("Invalid item choice");
             }
         }
     }
