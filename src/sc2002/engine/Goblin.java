@@ -8,7 +8,7 @@ public class Goblin extends BaseCombatant {
     @Override
     public void performAction(List<Combatant> enemies) {
         if (!enemies.isEmpty()) {
-            Combatant target = enemies.get(0); // 简化为攻击第一个敌人
+            Combatant target = enemies.get(0);
             Action action = new BasicAttackAction(this, target);
             action.execute();
         }
