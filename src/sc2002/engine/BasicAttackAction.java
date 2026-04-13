@@ -14,6 +14,7 @@ public class BasicAttackAction implements Action {
         }
         int damage = Math.max(0, actor.getAttack() - target.getDefense());
         if (actor.team() == Team.ENEMY && state.isEnemyDamageZeroActive()) {
+            // no damage?
             damage = 0;
         }
         target.applyDamage(damage);
