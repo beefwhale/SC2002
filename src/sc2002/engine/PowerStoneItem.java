@@ -22,7 +22,10 @@ public class PowerStoneItem implements Item {
 
         
         user.consumeItem(name());
-        freeSkillAction.execute(state, user, target);
+        if (!freeSkillAction.execute(state, user, target)) {
+            return false;
+        }
+
         return true;
     }
 }
