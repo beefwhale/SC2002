@@ -113,13 +113,13 @@ public class ConsolePlayerDecisionPort implements PlayerDecisionPort {
 
     private void printState(BattleState state, Combatant player, List<Combatant> aliveEnemies) {
         System.out.println("\nRound " + state.getRoundCount());
-        System.out.println(player.name() + " HP=" + player.getHp() + "/" + player.getMaxHp() +
+        System.out.println(player.getName() + " HP=" + player.getHp() + "/" + player.getMaxHp() +
             " CD=" + player.getSkillCooldown() +
             " Potion=" + player.getItemCount("Potion") +
             " PowerStone=" + player.getItemCount("PowerStone") +
             " SmokeBomb=" + player.getItemCount("SmokeBomb"));
         for (Combatant enemy : aliveEnemies) {
-            System.out.println(" - " + enemy.name() + " HP=" + enemy.getHp());
+            System.out.println(" - " + enemy.getName() + " HP=" + enemy.getHp());
         }
         System.out.println("Choose action: 1) BasicAttack 2) Defend 3) SpecialSkill 4) Item");
     }
