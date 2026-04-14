@@ -11,24 +11,6 @@ public class PlayerCombatant extends BaseCombatant {
     public PlayerType getPlayerType() {
         return playerType;
     }
-    public void useItem(Item item) {
-        if (inventory.contains(item)) {
-            item.use(this);
-            inventory.remove(item);
-            System.out.println(this.name + " used " + item.getName() + "!");
-        } else {
-            System.out.println(this.name + " does not have " + item.getName() + "!");
-        }
-    }
-
-    public void updateCooldown() {
-        if (skillCooldown > 0) {
-            skillCooldown--;
-        }
-    }
-
-    public abstract void useSpecialSkill(List<Combatant> enemies);
-
-    public abstract void chooseAction(List<Combatant> enemies);
+    
 }
 
