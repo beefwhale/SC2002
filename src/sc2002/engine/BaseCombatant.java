@@ -200,7 +200,7 @@ public class BaseCombatant implements Combatant {
         inventory.put(itemName, getItemCount(itemName) + Math.max(0, count));
     }
 
-    private void removeExpiredEffects() {
+    public void removeExpiredEffects() {
         Iterator<StatusEffect> iterator = statusEffects.iterator();
         while (iterator.hasNext()) {
             if (iterator.next().isExpired()) {
