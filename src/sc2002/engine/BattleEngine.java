@@ -82,7 +82,7 @@ public class BattleEngine {
     }
 
     private PlannedAction chooseAction(BattleState state, Combatant actor) {
-        if (actor.team() == Team.PLAYER) {
+        if (actor.getTeam() == Team.PLAYER) {
             return playerDecisionPort.chooseAction(state, actor);
         }
         return enemyActionPolicy.chooseAction(state, actor, state.player());
