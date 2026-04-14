@@ -20,6 +20,7 @@ public class BaseCombatant implements Combatant {
     private int defenseBonusRounds;
     private int skillCooldown;
     private boolean actionBlockedForTurn;
+    private boolean canAct;
     private final List<StatusEffect> statusEffects = new ArrayList<>();
     private final Map<String, Integer> inventory = new HashMap<>();
 
@@ -67,6 +68,27 @@ public class BaseCombatant implements Combatant {
     public int getDefense() {
         return baseDefense + defenseBonus;
     }
+    
+    @Override
+    public boolean canAct() {
+    return this.canAct && isAlive();
+    }
+
+    @Override
+    public void setCanAct(boolean canAct) {
+    this.canAct = canAct;
+    }
+
+    @Override
+    public int setHP(int HP) {
+    if (HP > maxHp) {
+        this.hp = maxHp;
+    } else if (HP < 0) {
+        this.hp = 0;
+    } else {
+        this.hp = HP;
+    }
+    return this.hp;}//modified
 
     @Override
     public int getSkillCooldown() {
