@@ -9,7 +9,7 @@ public class PotionItem implements Item {
 
     @Override
     public boolean use(BattleState state, Combatant user, Combatant target) {
-        if (user.getItemCount(name)) <= 0) {
+        if (user.getItemCount(name()) <= 0) {
             System.out.println("No more Potion");
             return false;
         }

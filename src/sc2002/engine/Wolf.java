@@ -1,4 +1,5 @@
 package sc2002.engine;
+import java.util.List;
 
 // TODO: Person 2 - Implement enemy characters
 public class Wolf extends BaseCombatant {

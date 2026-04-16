@@ -1,5 +1,5 @@
-package sc2002;
 
+package sc2002;
 import java.util.Scanner;
 
 public class InputHandle {

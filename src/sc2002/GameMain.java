@@ -1,6 +1,7 @@
 package sc2002;
 
 import java.util.Scanner;
+import sc2002.InputHandle;
 import sc2002.engine.Action;
 import sc2002.engine.BasicAttackAction;
 import sc2002.engine.BasicAttackEnemyPolicy;
@@ -30,7 +31,7 @@ public class GameMain {
         printGameContextAndInstructions();
 
         System.out.println("Choose player: 1) Warrior 2) Wizard");
-        int playerChoice = inputHandle.readChoice("Enter choice: :, 1,2);
+        int playerChoice = inputHandle.readChoice("Enter choice: ", 1,2);
         PlayerCombatant player = (playerChoice == 2) ? new Wizard() : new Warrior();
 
         Item potion = new PotionItem();
@@ -42,7 +43,7 @@ public class GameMain {
 
         System.out.println("Choose difficulty: 1) Easy 2) Medium 3) Hard");
         int difficultyChoice = inputHandle.readChoice("Enter difficulty: ", 1,3);
-        Difficulty difficulty = (difficultyChoice == 2) ? DIfficulty.MEDIUM : (difficultyChoice == 3 ? Difficulty.HARD : Difficulty.EASY);
+        Difficulty difficulty = (difficultyChoice == 2)? Difficulty.MEDIUM: (difficultyChoice == 3 ? Difficulty.HARD : Difficulty.EASY);
 
         LevelFactory levelFactory = new LevelFactory();
         BattleSetup setup = levelFactory.create(player, difficulty);

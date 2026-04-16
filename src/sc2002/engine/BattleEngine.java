@@ -41,7 +41,7 @@ public class BattleEngine {
                 if (!actor.consumeActionBlockedForTurn()) {
                     boolean actionSucceeded = false;
 
-                    if (actor.team() == Team.PLAYER) {
+                    if (actor.getTeam() == Team.PLAYER) {
                         while (!actionSucceeded) {
                             PlannedAction action = chooseAction(state, actor);
                             if (action != null && action.action() != null) {

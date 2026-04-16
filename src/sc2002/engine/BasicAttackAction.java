@@ -13,7 +13,7 @@ public class BasicAttackAction implements Action {
             return false;
         }
         int damage = Math.max(0, actor.getAttack() - target.getDefense());
-        if (actor.team() == Team.ENEMY && state.isEnemyDamageZeroActive()) {
+       if (actor.getTeam() == Team.ENEMY && state.isEnemyDamageZeroActive()) {
             // no damage?
             damage = 0;
         }

@@ -84,7 +84,7 @@ public class ConsolePlayerDecisionPort implements PlayerDecisionPort {
         System.out.println("Select target:");
         for (int i = 0; i < aliveEnemies.size(); i++) {
             Combatant enemy = aliveEnemies.get(i);
-            System.out.println((i + 1) + ") " + enemy.name() + " HP=" + enemy.getHp());
+            System.out.println((i + 1) + ") " + enemy.getName() + " HP=" + enemy.getHp());
         }
 
         while (true) {

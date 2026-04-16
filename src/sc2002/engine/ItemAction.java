@@ -14,8 +14,8 @@ public class ItemAction implements Action {
     }
 
     @Override
-    public void execute(BattleState state, Combatant actor, Combatant target) {
-        item.use(state, actor, target);
+    public boolean execute(BattleState state, Combatant actor, Combatant target) {
+        return item.use(state, actor, target);
     }
 }
 
