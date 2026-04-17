@@ -22,7 +22,6 @@ import sc2002.engine.SpeedTurnOrderStrategy;
 import sc2002.engine.Warrior;
 import sc2002.engine.Wizard;
 
-// TODO: Person 4 - Enhance UI/output, add game result screens
 public class GameMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

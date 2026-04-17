@@ -1,6 +1,5 @@
 package sc2002.engine;
 
-// TODO: Person 3 - Implement status effects
 public class StunEffect implements StatusEffect {
     private int turnsRemaining;
 

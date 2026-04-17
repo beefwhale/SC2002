@@ -1,6 +1,5 @@
 package sc2002.engine;
 
-// TODO: Person 2 - Implement enemy characters
 import java.util.List;
 
 public class Goblin extends BaseCombatant {

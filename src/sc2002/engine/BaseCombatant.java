@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Person 2 - Extend/customize character base class as needed
 public class BaseCombatant implements Combatant {
     private final String name;
     private final Team team;

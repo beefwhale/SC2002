@@ -51,9 +51,12 @@ public class BattleEngine {
                     } else {
                         PlannedAction action = chooseAction(state, actor);
                         if (action != null && action.action() != null) {
+                            printEnemyAction(actor, action);
                             action.action().execute(state, actor, action.target());
                         }
                     }
+                } else if (actor.getTeam() == Team.ENEMY) {
+                    System.out.println("Enemy: " + actor.getName() + " → STUNNED: Turn skipped");
                 }
 
                 actor.applyTurnEndEffects();
@@ -86,6 +89,11 @@ public class BattleEngine {
             return playerDecisionPort.chooseAction(state, actor);
         }
         return enemyActionPolicy.chooseAction(state, actor, state.player());
+    }
+
+    private void printEnemyAction(Combatant actor, PlannedAction action) {
+        String targetName = action.target() == null ? "no target" : action.target().getName();
+        System.out.println("Enemy: " + actor.getName() + " → " + action.action().name() + " → " + targetName);
     }
 
     private BattleOutcome evaluateOutcome(BattleState state) {

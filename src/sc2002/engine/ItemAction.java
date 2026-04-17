@@ -1,6 +1,5 @@
 package sc2002.engine;
 
-// TODO: Person 3 - Implement actions
 public class ItemAction implements Action {
     private final Item item;
 
