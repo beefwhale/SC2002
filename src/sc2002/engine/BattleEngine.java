@@ -19,6 +19,18 @@ public class BattleEngine {
 
     public BattleResult run(BattleState state) {
         BattleOutcome outcome = evaluateOutcome(state);
+        int playerActions = 0;
+        int enemyActions = 0;
+        int basicAttacksUsed = 0;
+        int defendUsed = 0;
+        int specialSkillsUsed = 0;
+        int itemsUsed = 0;
+        int playerDamageDealt = 0;
+        int playerDamageTaken = 0;
+        int enemiesDefeated = 0;
+        int enemyTurnsSkipped = 0;
+        int backupSpawns = 0;
+        boolean backupPreviouslySpawned = state.isBackupSpawned();
 
         while (outcome == BattleOutcome.ONGOING) {
             state.incrementRound();
@@ -45,22 +57,49 @@ public class BattleEngine {
                         while (!actionSucceeded) {
                             PlannedAction action = chooseAction(state, actor);
                             if (action != null && action.action() != null) {
+                                String actionName = action.action().name();
+                                int enemyHpBefore = totalEnemyHp(state);
+                                int aliveEnemiesBefore = countAliveEnemies(state);
                                 actionSucceeded = action.action().execute(state, actor, action.target());
+                                if (actionSucceeded) {
+                                    playerActions++;
+                                    if ("BasicAttack".equals(actionName)) {
+                                        basicAttacksUsed++;
+                                    } else if ("Defend".equals(actionName)) {
+                                        defendUsed++;
+                                    } else if ("SpecialSkill".equals(actionName)) {
+                                        specialSkillsUsed++;
+                                    } else if (actionName.startsWith("Item(")) {
+                                        itemsUsed++;
+                                    }
+                                    playerDamageDealt += Math.max(0, enemyHpBefore - totalEnemyHp(state));
+                                    enemiesDefeated += Math.max(0, aliveEnemiesBefore - countAliveEnemies(state));
+                                }
                             }
                         }
                     } else {
                         PlannedAction action = chooseAction(state, actor);
                         if (action != null && action.action() != null) {
                             printEnemyAction(actor, action);
-                            action.action().execute(state, actor, action.target());
+                            int playerHpBefore = state.player().getHp();
+                            boolean executed = action.action().execute(state, actor, action.target());
+                            if (executed) {
+                                enemyActions++;
+                                playerDamageTaken += Math.max(0, playerHpBefore - state.player().getHp());
+                            }
                         }
                     }
                 } else if (actor.getTeam() == Team.ENEMY) {
                     System.out.println("Enemy: " + actor.getName() + " → STUNNED: Turn skipped");
+                    enemyTurnsSkipped++;
                 }
 
                 actor.applyTurnEndEffects();
                 state.spawnBackupIfReady();
+                if (!backupPreviouslySpawned && state.isBackupSpawned()) {
+                    backupSpawns++;
+                    backupPreviouslySpawned = true;
+                }
 
                 outcome = evaluateOutcome(state);
                 if (outcome != BattleOutcome.ONGOING) {
@@ -76,12 +115,45 @@ public class BattleEngine {
             .filter(Combatant::isAlive)
             .count();
 
+        BattleStats stats = new BattleStats(
+            playerActions,
+            enemyActions,
+            basicAttacksUsed,
+            defendUsed,
+            specialSkillsUsed,
+            itemsUsed,
+            playerDamageDealt,
+            playerDamageTaken,
+            enemiesDefeated,
+            enemyTurnsSkipped,
+            backupSpawns
+        );
+
         return new BattleResult(
             outcome,
             state.getRoundCount(),
             state.player().getHp(),
-            enemiesRemaining
+            enemiesRemaining,
+            stats
         );
+    }
+
+    private int totalEnemyHp(BattleState state) {
+        int total = 0;
+        for (Combatant enemy : state.activeEnemies()) {
+            total += enemy.getHp();
+        }
+        return total;
+    }
+
+    private int countAliveEnemies(BattleState state) {
+        int count = 0;
+        for (Combatant enemy : state.activeEnemies()) {
+            if (enemy.isAlive()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private PlannedAction chooseAction(BattleState state, Combatant actor) {

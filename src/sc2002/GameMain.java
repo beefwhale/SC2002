@@ -1,12 +1,12 @@
 package sc2002;
 
 import java.util.Scanner;
-import sc2002.InputHandle;
 import sc2002.engine.Action;
 import sc2002.engine.BasicAttackAction;
 import sc2002.engine.BasicAttackEnemyPolicy;
 import sc2002.engine.BattleEngine;
 import sc2002.engine.BattleResult;
+import sc2002.engine.BattleStats;
 import sc2002.engine.BattleSetup;
 import sc2002.engine.ConsolePlayerDecisionPort;
 import sc2002.engine.DefendAction;
@@ -70,6 +70,27 @@ public class GameMain {
         } else {
             System.out.println("Enemies remaining: " + result.enemiesRemaining());
         }
+        printPostGameStats(result);
+    }
+
+    private static void printPostGameStats(BattleResult result) {
+        BattleStats stats = result.stats();
+        if (stats == null) {
+            return;
+        }
+
+        System.out.println("\n=== Post-Game Stats Dashboard ===");
+        System.out.println("Player actions: " + stats.playerActions());
+        System.out.println("Enemy actions: " + stats.enemyActions());
+        System.out.println("BasicAttack used: " + stats.basicAttacksUsed());
+        System.out.println("Defend used: " + stats.defendUsed());
+        System.out.println("SpecialSkill used: " + stats.specialSkillsUsed());
+        System.out.println("Items used: " + stats.itemsUsed());
+        System.out.println("Damage dealt by player: " + stats.playerDamageDealt());
+        System.out.println("Damage taken by player: " + stats.playerDamageTaken());
+        System.out.println("Enemies defeated: " + stats.enemiesDefeated());
+        System.out.println("Enemy turns skipped: " + stats.enemyTurnsSkipped());
+        System.out.println("Backup spawns triggered: " + stats.backupSpawns());
     }
 
     private static void chooseItems(InputHandle inputHandle, PlayerCombatant player, Item potion, Item smokeBomb, Item powerStone) {
